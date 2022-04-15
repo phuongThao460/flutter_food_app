@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, prefer_typing_uninitialized_variables, unused_element, unused_import
+// ignore_for_file: use_key_in_widget_constructors, sized_box_for_whitespace, avoid_unnecessary_containers, prefer_typing_uninitialized_variables, unused_element, unused_import, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/homepage/homepage.dart';
@@ -6,6 +6,7 @@ import 'package:flutter_food_app/model/ultilities.dart';
 import 'package:flutter_food_app/model/user.dart';
 import 'package:flutter_food_app/signup/signuppage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SignInForm extends StatefulWidget {
@@ -15,23 +16,26 @@ class SignInForm extends StatefulWidget {
 
 class _SignInFormState extends State<SignInForm> {
   bool isChecked = false;
-  var prefs;
+  SharedPreferences? prefs;
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController _emailTextController = TextEditingController();
-  final TextEditingController _passwordTextController = TextEditingController();
+  final _emailTextController = TextEditingController();
+  final _passwordTextController = TextEditingController();
+  late FToast fToast;
 
   @override
   void initState() {
     super.initState;
+    fToast = FToast();
+    fToast.init(context);
     _getData();
   }
 
   _getData() async {
     prefs = await SharedPreferences.getInstance();
-    if (!prefs.getString('username').isEmpty) {
-      _emailTextController.text = prefs.getString('username');
-      _passwordTextController.text = prefs.getString('password');
-      isChecked = prefs.getBool('check');
+    if (prefs!.getString('username')!.isNotEmpty) {
+      _emailTextController.text = prefs!.getString('username')!;
+      _passwordTextController.text = prefs!.getString('password')!;
+      isChecked = prefs!.getBool('check')!;
       //print(_value.toString());
     }
   }
@@ -96,9 +100,13 @@ class _SignInFormState extends State<SignInForm> {
                               validator: (_value) {
                                 return Ultilities.validateEmail(_value!);
                               },
+                              onSaved: (_value) {
+                                setState(() {
+                                  _emailTextController.text = _value!;
+                                });
+                              },
                               cursorColor: Colors.black,
                               controller: _emailTextController,
-                              // ignore: prefer_const_constructors
                               decoration: const InputDecoration(
                                   hintText: "Enter your email here",
                                   border: OutlineInputBorder(
@@ -152,22 +160,17 @@ class _SignInFormState extends State<SignInForm> {
                                   if (isChecked) {
                                     prefs =
                                         await SharedPreferences.getInstance();
-                                    prefs.setString(
+                                    prefs!.setString(
                                         "username", _emailTextController.text);
-                                    prefs.setString("password",
+                                    prefs!.setString("password",
                                         _passwordTextController.text);
-                                    //prefs.setBool('check', isChecked);
+                                    prefs!.setBool('check', isChecked);
+                                  } else {
+                                    prefs!.remove('check');
                                   }
-                                  //  else {
-                                  //   prefs.remove('check');
-                                  // }
 
                                   Navigator.pushNamed(
                                       context, HomePage.routeName);
-                                  // Navigator.push(
-                                  //     context,
-                                  //     MaterialPageRoute(
-                                  //         builder: (context) => HomePage()));
                                 },
                                 child: const Text("Continue"),
                                 style: ButtonStyle(

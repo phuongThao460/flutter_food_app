@@ -3,6 +3,7 @@ import 'package:flutter_food_app/routes.dart';
 import 'package:flutter_food_app/splashpage.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 

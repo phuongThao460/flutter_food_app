@@ -33,9 +33,17 @@ class Ultilities {
         description: item['description'],
         title: item['title'],
         image: item['image'],
-        price: double.parse(item['price']));
+        price: double.parse(item['price']),
+        cateID: item['cateID']);
+  }
+List<Products>find(String data){
+    return Products.init().where((p)=>p.title.toLowerCase().contains(data.toLowerCase())).toList();
   }
 
+  List<Products>getProductFomCate(int id){
+    var data=Products.init();
+    return data.where((p)=>p.cateID==id).toList();
+  }
 
   static String? validateEmail(String value) {
     if (value.isEmpty) {

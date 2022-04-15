@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors, unused_local_variable, avoid_unnecessary_containers, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_food_app/detail/productpage.dart';
 import 'package:flutter_food_app/model/products.dart';
 import 'package:flutter_food_app/model/ultilities.dart';
 
@@ -65,12 +66,12 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      // onTap: () {
-      //   //print(product.id.toString());
-      //   Ultilities.data.add(product);
-      //   Navigator.pushNamed(context, ProductPage.routeName,
-      //       arguments: ProductDetailsArguments(product: product));
-      // },
+      onTap: () {
+        //print(product.id.toString());
+        Ultilities.data.add(product);
+        Navigator.pushNamed(context, ProductPage.routeName,
+            arguments: ProductDetailArguments(products: product));
+      },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

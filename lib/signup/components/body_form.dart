@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_food_app/model/ultilities.dart';
 import 'package:flutter_food_app/model/user.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class BodyForm extends StatefulWidget {
   const BodyForm({Key? key}) : super(key: key);
@@ -14,8 +13,8 @@ class BodyForm extends StatefulWidget {
 }
 
 class _BodyFormState extends State<BodyForm> {
-  bool isChecked = false;
-  var prefs;
+  // bool isChecked = false;
+  // var prefs;
 
   final TextEditingController _emailTextController = TextEditingController();
   final TextEditingController _passwordTextController = TextEditingController();
@@ -23,22 +22,6 @@ class _BodyFormState extends State<BodyForm> {
 
   final _formKey = GlobalKey<FormState>();
   final _passKey = GlobalKey<FormFieldState>();
-
-  @override
-  void initState() {
-    super.initState;
-    _getData();
-  }
-
-  _getData() async {
-    prefs = await SharedPreferences.getInstance();
-    if (!prefs.getString('username').isEmpty) {
-      _emailTextController.text = prefs.getString('username');
-      _emailTextController.text = prefs.getString('password');
-      isChecked = prefs.getBool('check');
-      //print(_value.toString());
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +51,8 @@ class _BodyFormState extends State<BodyForm> {
               width: MediaQuery.of(context).size.width,
               child: ElevatedButton(
                 onPressed: () {
-                  if (_formKey.currentState!.validate()) {
+                  final form = _formKey.currentState;
+                  if (form != null && form.validate()) {
                     Navigator.pop(
                         context,
                         User(
@@ -131,8 +115,6 @@ class _BodyFormState extends State<BodyForm> {
       decoration: const InputDecoration(
           border: OutlineInputBorder(),
           hintText: "Enter your email ",
-          // If  you are using latest version of flutter then lable text and hint text shown like this
-          // if you r using flutter less then 1.20.* then maybe this is not working properly
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.email_outlined)),
       validator: ((value) =>
@@ -149,20 +131,22 @@ class _BodyFormState extends State<BodyForm> {
 
   TextFormField passwordTextFormField() {
     return TextFormField(
-        key: _passKey,
-        controller: _passwordTextController,
-        obscureText: true,
-        keyboardType: TextInputType.number,
-        decoration: const InputDecoration(
-            border: OutlineInputBorder(),
-            hintText: "Enter your password",
-            // If  you are using latest version of flutter then lable text and hint text shown like this
-            // if you r using flutter less then 1.20.* then maybe this is not working properly
-            floatingLabelBehavior: FloatingLabelBehavior.always,
-            suffixIcon: Icon(Icons.lock_outline)),
-        validator: (passwordKey) {
-          return Ultilities.validatePassword(passwordKey!);
-        });
+      key: _passKey,
+      controller: _passwordTextController,
+      obscureText: true,
+      keyboardType: TextInputType.number,
+      decoration: const InputDecoration(
+          border: OutlineInputBorder(),
+          hintText: "Enter your password",
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          suffixIcon: Icon(Icons.lock_outline)),
+      validator: (passwordKey) {
+        if (passwordKey != null) {
+          return Ultilities.validatePassword(passwordKey);
+        }
+        return null;
+      },
+    );
   }
 
   TextFormField conformTextFormField() {
@@ -173,18 +157,18 @@ class _BodyFormState extends State<BodyForm> {
       decoration: const InputDecoration(
           border: OutlineInputBorder(),
           hintText: "Re-enter your password",
-          // If  you are using latest version of flutter then lable text and hint text shown like this
-          // if you r using flutter less then 1.20.* then maybe this is not working properly
           floatingLabelBehavior: FloatingLabelBehavior.always,
           suffixIcon: Icon(Icons.lock_outline)),
       validator: (conformPassword) {
-        var pass = _passKey.currentState?.value;
+        var pass = _passKey.currentState!.value;
         return Ultilities.conformPassword(conformPassword!, pass);
       },
       onSaved: (value) {
-        setState(() {
-          _confirmTextController.text = value!;
-        });
+        if (value != null) {
+          setState(() {
+            _confirmTextController.text = value;
+          });
+        }
       },
     );
   }

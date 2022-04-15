@@ -1,6 +1,8 @@
 // ignore_for_file: use_key_in_widget_constructors, sized_box_for_whitespace, must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:flutter_food_app/categories/categoriespage.dart';
+//import 'package:flutter_food_app/categories/categoriespage.dart';
 import 'package:flutter_food_app/model/categories.dart';
 
 class CategoriesStore extends StatelessWidget {
@@ -40,7 +42,7 @@ class CategoriesStore extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: categories.length,
                   itemBuilder: (context, index) {
-                    return CategoriesItem(category: categories[index]);
+                    return CategoriesItem(category: categories[index], id: categories[index].id,);
                   }),
             )
           ],
@@ -52,16 +54,21 @@ class CategoriesStore extends StatelessWidget {
 
 class CategoriesItem extends StatelessWidget {
   Categories category;
-
-  CategoriesItem({required this.category});
+  int id;
+  CategoriesItem({required this.category, required this.id});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 150,
-      height: 150,
-      padding: const EdgeInsets.all(5),
-      child: Image.asset(category.image),
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, CategoriesPage.routeName,
+            arguments: ProductsFromCategory(id: id));
+      },
+      child: Container(
+          width: 150,
+          height: 150,
+          padding: const EdgeInsets.all(5),
+          child: Image.asset(category.image)),
     );
   }
 }

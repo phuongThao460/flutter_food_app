@@ -1,10 +1,10 @@
 
 class Categories{
-  int? id;
+  int id;
   String title;
   String image;
 
-  Categories({this.id, required this.title, required this.image});
+  Categories({required this.id, required this.title, required this.image});
   
   static List<Categories> init(){
     List<Categories> data= [

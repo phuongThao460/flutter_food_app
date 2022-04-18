@@ -32,8 +32,8 @@ class _SignInFormState extends State<SignInForm> {
 
   _getData() async {
     prefs = await SharedPreferences.getInstance();
-    if (prefs!.getString('username')!.isNotEmpty) {
-      _emailTextController.text = prefs!.getString('username')!;
+    if (prefs!.getString('email')!.isNotEmpty) {
+      _emailTextController.text = prefs!.getString('email')!;
       _passwordTextController.text = prefs!.getString('password')!;
       isChecked = prefs!.getBool('check')!;
       //print(_value.toString());
@@ -79,7 +79,7 @@ class _SignInFormState extends State<SignInForm> {
                                 fontWeight: FontWeight.w600),
                           ),
                           Text(
-                            "Sign in with your email and password or '/n' continue with your social media",
+                            "Sign in with your email and password or continue \n with your social media",
                             style: TextStyle(
                               color: Colors.green,
                             ),
@@ -96,6 +96,7 @@ class _SignInFormState extends State<SignInForm> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
+                            Text(_passwordTextController.text),
                             TextFormField(
                               validator: (_value) {
                                 return Ultilities.validateEmail(_value!);
@@ -158,13 +159,13 @@ class _SignInFormState extends State<SignInForm> {
                               child: ElevatedButton(
                                 onPressed: () async {
                                   if (isChecked) {
-                                    prefs =
+                                    SharedPreferences prefs =
                                         await SharedPreferences.getInstance();
-                                    prefs!.setString(
-                                        "username", _emailTextController.text);
-                                    prefs!.setString("password",
+                                    prefs.setString(
+                                        "email", _emailTextController.text);
+                                    prefs.setString("password",
                                         _passwordTextController.text);
-                                    prefs!.setBool('check', isChecked);
+                                    prefs.setBool('check', isChecked);
                                   } else {
                                     prefs!.remove('check');
                                   }

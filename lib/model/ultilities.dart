@@ -73,8 +73,7 @@ List<Products>find(String data){
     if (!equalsIgnoreCase(value, value2)) {
       return "Conform password invalid";
     }
-    else {
-      return null;
-    }
+    return null;
+    
   }
 }

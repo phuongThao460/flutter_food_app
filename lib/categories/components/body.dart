@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/categories/components/categories_details.dart';
-//import 'package:flutter_food_app/homepage/components/fragments/home_fragment_products.dart';
+
 class Body extends StatelessWidget {
   int id;
   Body({required this.id});

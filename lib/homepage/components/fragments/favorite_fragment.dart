@@ -6,21 +6,18 @@ import 'package:flutter_food_app/homepage/components/fragments/favorite_product.
 import 'package:flutter_food_app/model/products.dart';
 
 class FavoriteDetail extends StatelessWidget {
-  //List<Products> products;
-  final product = Products.init();
-  FavoriteDetail(product);
+  List<Products> products;
+  FavoriteDetail(this.products);
 
   @override
   Widget build(BuildContext context) {
-    print(product.length.toString());
     return Expanded(
       child: Container(
           child: ListView.builder(
-              //scrollDirection: Axis.vertical,
               shrinkWrap: true,
-              itemCount: product.length,
+              itemCount: products.length,
               itemBuilder: (context, index) {
-                return ProductItemList(product: product[index]);
+                return ProductItemList(product: products[index]);
               })),
     );
   }

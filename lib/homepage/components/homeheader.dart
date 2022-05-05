@@ -1,6 +1,7 @@
 // ignore_for_file: use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter_food_app/cart/cartpage.dart';
 
 class HomeHeader extends StatelessWidget {
   @override
@@ -18,9 +19,9 @@ class HomeHeader extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          // onTap: (){
-          //   Navigator.pushNamed(context, CartPage.routeName);
-          // },
+          onTap: (){
+            Navigator.pushNamed(context, CartPage.routeName);
+          },
           child: Container(
               height: 40,
               width: 40,

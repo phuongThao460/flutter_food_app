@@ -8,7 +8,6 @@ import 'package:flutter_food_app/model/ultilities.dart';
 class ProductPopular extends StatelessWidget {
   final products = Products.init();
 
-
   @override
   Widget build(BuildContext context) {
     var productsAPI = Ultilities().getProducts();
@@ -19,18 +18,25 @@ class ProductPopular extends StatelessWidget {
         children: [
           Row(
             children: const [
-              Expanded(child: Text('Popular Products ', style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green),)),
-              Text('See more',
-                style: TextStyle(fontSize: 16, color: Colors.lightGreen),),
+              Expanded(
+                  child: Text(
+                'Popular Products ',
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.green),
+              )),
+              Text(
+                'See more',
+                style: TextStyle(fontSize: 16, color: Colors.lightGreen),
+              ),
             ],
           ),
-          const SizedBox(height: 10,),
+          const SizedBox(
+            height: 10,
+          ),
           Container(
-              child:
-              GridView.builder(
+              child: GridView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   primary: false,
@@ -39,22 +45,15 @@ class ProductPopular extends StatelessWidget {
                       crossAxisCount: 3,
                       mainAxisSpacing: 10,
                       crossAxisSpacing: 10,
-                      childAspectRatio: 0.7
-
-                  ),
+                      childAspectRatio: 0.7),
                   itemBuilder: (context, index) {
                     return ProductItem(
                       product: products[index],
                     );
-                  })
-
-
-          ),
-
+                  })),
         ],
       ),
     );
-    
   }
 }
 
@@ -67,16 +66,26 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //print(product.id.toString());
-        Ultilities.data.add(product);
+        if (Ultilities.data.isEmpty) {
+          Ultilities.data.add(product);
+        } else {
+          for (int i = 0; i < Ultilities.data.length; i++) {
+            if (Ultilities.data.contains(product) == false) {
+              Ultilities.data.add(product);
+            }
+          }
+        }
+
         Navigator.pushNamed(context, ProductPage.routeName,
             arguments: ProductDetailArguments(products: product));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-
-          Image.asset(product.image, fit: BoxFit.fill,),
+          Image.asset(
+            product.image,
+            fit: BoxFit.fill,
+          ),
           Row(
             children: [
               Expanded(child: Text(product.title)),
@@ -85,10 +94,12 @@ class ProductItem extends StatelessWidget {
                   decoration: BoxDecoration(
                       border: Border.all(color: Colors.white),
                       borderRadius: BorderRadius.circular(2),
-                      color: Colors.green
-                  ),
-                  child: Text(product.price.toString(), style: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),)),
+                      color: Colors.green),
+                  child: Text(
+                    product.price.toString(),
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  )),
             ],
           )
         ],

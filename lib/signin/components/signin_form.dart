@@ -31,12 +31,15 @@ class _SignInFormState extends State<SignInForm> {
   }
 
   _getData() async {
-    prefs = await SharedPreferences.getInstance();
-    if (prefs!.getString('email')!.isNotEmpty) {
-      _emailTextController.text = prefs!.getString('email')!;
-      _passwordTextController.text = prefs!.getString('password')!;
-      isChecked = prefs!.getBool('check')!;
-      //print(_value.toString());
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('email')!.isNotEmpty) {
+      _emailTextController.text = prefs.getString('email')!;
+      _passwordTextController.text = prefs.getString('password')!;
+      isChecked = prefs.getBool('check')!;
+      Navigator.pushNamed(context, HomePage.routeName);
+    } else {
+      _emailTextController.text = "";
+      _passwordTextController.text = "";
     }
   }
 
@@ -96,7 +99,6 @@ class _SignInFormState extends State<SignInForm> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
-                            Text(_passwordTextController.text),
                             TextFormField(
                               validator: (_value) {
                                 return Ultilities.validateEmail(_value!);
@@ -158,7 +160,9 @@ class _SignInFormState extends State<SignInForm> {
                               width: MediaQuery.of(context).size.width,
                               child: ElevatedButton(
                                 onPressed: () async {
-                                  if (isChecked) {
+                                  if (isChecked &&
+                                      _emailTextController.text.isNotEmpty &&
+                                      _passwordTextController.text.isNotEmpty) {
                                     SharedPreferences prefs =
                                         await SharedPreferences.getInstance();
                                     prefs.setString(

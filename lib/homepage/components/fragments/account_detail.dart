@@ -33,6 +33,13 @@ class _AccountDetailState extends State<AccountDetail> {
         //print(prefs.getString('email'));
       });
     }
+    if ((prefs.getString('fullName') != null) &&
+        (prefs.getString('phoneNumber') != null) &&
+        (prefs.getString('address') != null)) {
+      _fullNameTextController.text = prefs.getString('fullName') ?? '';
+      _phoneNumberTextController.text = prefs.getString('phoneNumber') ?? '';
+      _addressTextController.text = prefs.getString('address') ?? '';
+    }
   }
 
   @override

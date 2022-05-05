@@ -14,6 +14,7 @@ class ProductPage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as ProductDetailArguments;
     return Scaffold(
       appBar: AppBar(
+        title: Text(arguments.products.title),
         leading: IconButton(
             onPressed: () {
               Navigator.pop(context);

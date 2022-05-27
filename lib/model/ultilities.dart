@@ -1,9 +1,6 @@
 // ignore_for_file: avoid_print, unnecessary_new
 
-import 'dart:convert';
-
 import 'package:flutter_food_app/model/products.dart';
-import 'package:http/http.dart' as http;
 import 'package:quiver/strings.dart';
 
 class Ultilities {
@@ -11,38 +8,31 @@ class Ultilities {
 
   static List<Products> data = [];
 
-  Future<List<Products>> getProducts() async{
-    var res = await http.get(Uri.parse(url));
-    if (res.statusCode == 200) {
-      var content = res.body;
-      print(content.toString());
-      var arr = json.decode(content)['food'] as List;
+  // Future<List<Products>> getProducts() async{
+  //   var res = await http.get(Uri.parse(url));
+  //   if (res.statusCode == 200) {
+  //     var content = res.body;
+  //     print(content.toString());
+  //     var arr = json.decode(content)['food'] as List;
 
-      // for every element of arr map to _fromJson
-      // and convert the array to list
+  //     // for every element of arr map to _fromJson
+  //     // and convert the array to list
 
-      return arr.map((e) => _fromJson(e)).toList();
-    }
+  //     return arr.map((e) => _fromJson(e)).toList();
+  //   }
 
-    return <Products>[];
+  //   return <Products>[];
+  // }
+
+  static List<Products> find(String data) {
+    return Products.init()
+        .where((p) => p.title.toLowerCase().startsWith(data.toLowerCase()))
+        .toList();
   }
 
-  Products _fromJson(Map<String, dynamic> item) {
-    return new Products(
-      id: item['id'],
-        description: item['description'],
-        title: item['title'],
-        image: item['image'],
-        price: double.parse(item['price']),
-        cateID: item['cateID']);
-  }
-List<Products>find(String data){
-    return Products.init().where((p)=>p.title.toLowerCase().contains(data.toLowerCase())).toList();
-  }
-
-  List<Products>getProductFomCate(int id){
-    var data=Products.init();
-    return data.where((p)=>p.cateID==id).toList();
+  List<Products> getProductFomCate(int id) {
+    var data = Products.init();
+    return data.where((p) => p.cateID == id).toList();
   }
 
   static String? validateEmail(String value) {
@@ -74,6 +64,5 @@ List<Products>find(String data){
       return "Conform password invalid";
     }
     return null;
-    
   }
 }

@@ -7,16 +7,16 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 class AddToCart extends StatefulWidget {
   Products product;
-  AddToCart({required this.product});
+  double quantity;
+  AddToCart({required this.product, required this.quantity});
 
   @override
   State<AddToCart> createState() => _AddToCartState();
 }
 
 class _AddToCartState extends State<AddToCart> {
-
   @override
-  void initState(){
+  void initState() {
     super.initState();
   }
 
@@ -28,7 +28,7 @@ class _AddToCartState extends State<AddToCart> {
       child: ElevatedButton(
         onPressed: () {
           Cart cart = Cart();
-          cart.addProductToCart(widget.product);
+          cart.addProductToCart(widget.product, widget.quantity);
           Fluttertoast.showToast(
               msg: "Add to cart",
               toastLength: Toast.LENGTH_SHORT,

@@ -1,4 +1,4 @@
-// ignore_for_file: use_key_in_widget_constructors, unused_local_variable, avoid_unnecessary_containers, must_be_immutable
+// ignore_for_file: use_key_in_widget_constructors, unused_local_variable, avoid_unnecessary_containers, must_be_immutable, avoid_print
 
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/detail/productpage.dart';
@@ -10,7 +10,7 @@ class ProductPopular extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var productsAPI = Ultilities().getProducts();
+    var productsAPI = Products.init();
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -61,19 +61,13 @@ class ProductItem extends StatelessWidget {
   Products product;
 
   ProductItem({required this.product});
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        if (Ultilities.data.isEmpty) {
+        if (Ultilities.data.contains(product) == false) {
           Ultilities.data.add(product);
-        } else {
-          for (int i = 0; i < Ultilities.data.length; i++) {
-            if (Ultilities.data.contains(product) == false) {
-              Ultilities.data.add(product);
-            }
-          }
+          print('add have');
         }
 
         Navigator.pushNamed(context, ProductPage.routeName,

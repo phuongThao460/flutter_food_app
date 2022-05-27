@@ -1,4 +1,4 @@
-// ignore_for_file: must_be_immutable, use_key_in_widget_constructors, prefer_typing_uninitialized_variables
+// ignore_for_file: must_be_immutable, use_key_in_widget_constructors, prefer_typing_uninitialized_variables, unnecessary_string_interpolations
 
 import 'package:flutter/material.dart';
 import 'package:flutter_food_app/detail/components/addtocart.dart';
@@ -13,7 +13,7 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> {
   var product;
-  int value = 1;
+  double value = 1;
   @override
   void initState() {
     super.initState();
@@ -30,15 +30,15 @@ class _BodyState extends State<Body> {
           SizedBox(
             height: 200,
             width: MediaQuery.of(context).size.width,
-            child: Image.asset(product.image),
+            child: Image.asset('${widget.product.image}'),
           ),
           const SizedBox(
             height: 20,
           ),
-          Expanded(child: Text(product.description)),
+          Expanded(child: Text(widget.product.description)),
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            child: Text('Price: ${product.price}'),
+            child: Text('Price: ${widget.product.price}'),
           ),
           Row(
             children: [
@@ -64,6 +64,7 @@ class _BodyState extends State<Body> {
           ),
           AddToCart(
             product: product,
+            quantity: value,
           )
         ],
       ),

@@ -88,7 +88,6 @@ class _AccountDetailState extends State<AccountDetail> {
                   prefs.setString(
                       'phoneNumber', _phoneNumberTextController.text);
                   prefs.setString('address', _addressTextController.text);
-                  Navigator.pop(context, _emailTextController.text);
                 },
                 style: ButtonStyle(
                     shape: MaterialStateProperty.all<OutlinedBorder>(
